@@ -7,7 +7,13 @@ const Home: NextPage = () => {
   const { data: session, status } = useSession();
 
   if (status == "loading") {
-    return <main>Loading...</main>
+    return (
+      <main className="flex h-screen">
+        <div className="m-auto">
+          Loading...
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -18,7 +24,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex min-h-screen flex-col p-4">
+      <main className="container mx-auto flex h-screen flex-col p-4">
         <div className="mb-16">
           <h1 className="text-4xl text-gray-200 text-center">
             Guestbook
