@@ -55,6 +55,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Post          Post[]
 }
 
 model VerificationToken {
@@ -65,9 +66,10 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Robot {
-  id          String    @id @default(cuid())
-  name        String?
-  parts       String?
-  model       String?
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [userId], references: [id])
+  userId    String
+  bio       String
 }
