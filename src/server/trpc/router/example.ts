@@ -13,4 +13,10 @@ export const exampleRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.example.findMany();
   }),
+  firstQuery: publicProcedure.input(z.object({ text: z.string().nullish() }).nullish())
+    .query(({ input }) => {
+      return {
+        message: `This is a message from ${input?.text ?? "no one"}`,
+      };
+    }),
 });
