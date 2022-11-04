@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 
 import { trpc } from "../utils/trpc";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -21,6 +22,59 @@ const Home: NextPage = () => {
     )
   }
 
+  const Messages = () => {
+    const { data } = trpc.post.getAll.useQuery();
+
+    return (
+      <div className="flex flex-col gap-4">
+        {data?.map((post) => {
+          return (
+            <div key={post.id} className="flex flex-col text-center mx-auto w-1/2 border-2 border-neutral-800 p-4">
+              <p className="text-neutral-400">
+                &quot;{post.message}&quot;
+              </p>
+              <span className="italic">- {post.name}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const Form = () => {
+    const [message, setMessage] = useState("");
+    const postMessage = trpc.post.postMessage.useMutation();
+
+    return (
+      <form
+        className="flex gap-2"
+        onSubmit={(event) => {
+          event.preventDefault();
+          postMessage.mutate({
+            name: session?.user?.name as string,
+            message,
+          });
+          setMessage("");
+        }}
+      >
+        <input
+          type="text"
+          value={message}
+          placeholder="Your message..."
+          minLength={2}
+          maxLength={255}
+          onChange={(event) => setMessage(event.target.value)}
+          className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none"
+        />
+        <button
+          type="submit"
+          className="p-2 rounded-md border-2 border-zinc-800 focus:outline-none">
+          Submit
+        </button>
+      </form>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -36,7 +90,7 @@ const Home: NextPage = () => {
           </h1>
         </div>
 
-        <div className="border-2 border-neutral-800 w-72 m-auto p-4 text-center">
+        <div className="border-2 border-neutral-800 min-w-72 m-auto p-4 text-center">
           {session ? (
             <>
               <div>
@@ -47,7 +101,9 @@ const Home: NextPage = () => {
                 Email is {session.user?.email}
               </div>
 
-              <button onClick={() => signOut()} className="bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded">
+              <Form />
+
+              <button onClick={() => signOut()} className="bg-blue-500 hover:bg-blue-700 mt-4 py-1 px-2 rounded">
                 Logout
               </button>
             </>
@@ -69,25 +125,6 @@ const Home: NextPage = () => {
         </div>
       </main>
     </>
-  );
-};
-
-const Messages = () => {
-  const { data } = trpc.post.getAll.useQuery();
-
-  return (
-    <div className="flex flex-col gap-4">
-      {data?.map((post) => {
-        return (
-          <div key={post.id} className="flex flex-col text-center mx-auto w-1/2 border-2 border-neutral-800 p-4">
-            <p className="text-neutral-400">
-              &quot;{post.message}&quot;
-            </p>
-            <span className="italic">- {post.name}</span>
-          </div>
-        );
-      })}
-    </div>
   );
 };
 
