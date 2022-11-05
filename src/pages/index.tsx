@@ -18,7 +18,6 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
-
     )
   }
 
@@ -29,11 +28,14 @@ const Home: NextPage = () => {
       <div className="flex flex-col gap-4">
         {data?.map((post) => {
           return (
-            <div key={post.id} className="flex flex-col text-center mx-auto w-1/2 border-2 border-neutral-800 p-4">
+            <div key={post.id} className="flex flex-col gap-2 justify-center text-center mx-auto w-1/2 border-2 rounded-md border-neutral-800 p-4">
               <p className="text-neutral-400">
                 &quot;{post.message}&quot;
               </p>
-              <span className="italic">- {post.name}</span>
+              <span className="italic font-bold">- {post.name}</span>
+              <div>
+                <span className="text-neutral-500 italic text-sm">{post.createdAt?.toUTCString()}</span>
+              </div>
             </div>
           );
         })}
@@ -77,11 +79,11 @@ const Home: NextPage = () => {
           minLength={2}
           maxLength={255}
           onChange={(event) => setMessage(event.target.value)}
-          className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none"
+          className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-transparent focus:outline-slate-800 focus:ring-slate-800 hover:border-zinc-600 transition-colors duraction-300 ease-in"
         />
         <button
           type="submit"
-          className="p-2 rounded-md border-2 border-zinc-800 focus:outline-none">
+          className="p-2 rounded-md border-2 border-zinc-800 focus:outline-neutral-900 hover:bg-neutral-800 hover:border-zinc-600 transition-colors duration-300 ease-in">
           Submit
         </button>
       </form>
@@ -103,20 +105,28 @@ const Home: NextPage = () => {
           </h1>
         </div>
 
-        <div className="border-2 border-neutral-800 min-w-72 m-auto p-4 text-center">
+        <div className="border-2 rounded-md border-neutral-800 min-w-72 m-auto p-4 text-center">
           {session ? (
             <>
-              <div>
-                Hello, {session.user?.name}
+              <div className="mb-2">
+                Logged in as:
               </div>
 
-              <div className="mb-4">
-                Email is {session.user?.email}
+              {
+                session.user?.image ? (
+                  <img src={session.user?.image} className="mx-auto mt-4 mb-2 rounded-full w-24 h-24 border-4 border-neutral-800" />
+                ) : (
+                  <div className="text-center">No profile picture</div>
+                )
+              }
+
+              <div className="mb-4 font-bold">
+                {session.user?.name}
               </div>
 
               <Form />
 
-              <button onClick={() => signOut()} className="bg-blue-500 hover:bg-blue-700 mt-4 py-1 px-2 rounded">
+              <button onClick={() => signOut()} className="bg-blue-500 hover:bg-blue-700 mt-4 py-1 px-2 rounded tranistion ease-in-out duration-500">
                 Logout
               </button>
             </>

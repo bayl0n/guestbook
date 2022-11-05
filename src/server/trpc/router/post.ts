@@ -28,6 +28,7 @@ export const postRouter = router({
                 id: true,
                 name: true,
                 message: true,
+                createdAt: true,
             },
             orderBy: {
                 createdAt: "desc",
