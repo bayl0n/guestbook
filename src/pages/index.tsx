@@ -42,8 +42,21 @@ const Home: NextPage = () => {
   };
 
   const Form = () => {
+    const utils = trpc.useContext();
     const [message, setMessage] = useState("");
-    const postMessage = trpc.post.postMessage.useMutation();
+    const postMessage = trpc.post.postMessage.useMutation({
+      onMutate: () => {
+        utils.post.getAll.cancel();
+        const optimisticUpdate = utils.post.getAll.getData();
+
+        if (optimisticUpdate) {
+          utils.post.getAll.setData(optimisticUpdate);
+        }
+      },
+      onSettled: () => {
+        utils.post.getAll.invalidate();
+      },
+    });
 
     return (
       <form
