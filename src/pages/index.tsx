@@ -28,14 +28,12 @@ const Home: NextPage = () => {
       <div className="flex flex-col gap-4">
         {data?.map((post) => {
           return (
-            <div key={post.id} className="flex flex-col gap-2 justify-center text-center mx-auto w-1/2 border-2 rounded-md border-neutral-800 p-4">
+            <div key={post.id} className="flex flex-col gap-2 justify-center text-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 p-4">
               <p className="text-neutral-400">
                 &quot;{post.message}&quot;
               </p>
               <span className="italic font-bold">- {post.name}</span>
-              <div>
-                <span className="text-neutral-500 italic text-sm">{post.createdAt?.toUTCString()}</span>
-              </div>
+              <span className="text-neutral-500 italic text-sm">{post.createdAt?.toUTCString()}</span>
             </div>
           );
         })}
@@ -62,7 +60,7 @@ const Home: NextPage = () => {
 
     return (
       <form
-        className="flex gap-2"
+        className="flex gap-2 flex-col md:flex-row"
         onSubmit={(event) => {
           event.preventDefault();
           postMessage.mutate({
@@ -105,7 +103,7 @@ const Home: NextPage = () => {
           </h1>
         </div>
 
-        <div className="border-2 rounded-md border-neutral-800 min-w-72 m-auto p-4 text-center">
+        <div className="border-2 rounded-md border-neutral-800 m-auto p-4 text-center">
           {session ? (
             <>
               <div className="mb-2">
