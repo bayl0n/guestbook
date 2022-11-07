@@ -35,8 +35,8 @@ const Home: NextPage = () => {
                 &quot;{post.message}&quot;
               </p>
               <span className="italic font-bold">- {post.author.name}</span>
-              <span className="text-neutral-500 italic text-sm">{post.createdAt?.toLocaleDateString()} at {post.createdAt?.toLocaleTimeString()}</span>
-              <div className="flex gap-2 justify-center pt-4">
+              <span className="text-neutral-500 italic text-sm">Posted {post.createdAt?.toLocaleString('en-US', { dateStyle: "long" })} at {post.createdAt.toLocaleTimeString('en-US')}</span>
+              <div className="flex gap-2 justify-center">
                 <button>
                   {
                     post.likes.find(user => {
