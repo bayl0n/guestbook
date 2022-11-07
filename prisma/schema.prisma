@@ -55,6 +55,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Post          Post[]    @relation("AuthoredPosts")
+  likes         Post[]
 }
 
 model VerificationToken {
@@ -68,6 +70,8 @@ model VerificationToken {
 model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  name      String
+  author    User     @relation(fields: [userId], name: "AuthoredPosts", references: [id])
+  userId    String
   message   String   @db.VarChar(256)
+  likes     User[]
 }

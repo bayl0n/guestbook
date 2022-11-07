@@ -1,7 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import { ArrowPathIcon, HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
@@ -32,8 +34,20 @@ const Home: NextPage = () => {
               <p className="text-neutral-400">
                 &quot;{post.message}&quot;
               </p>
-              <span className="italic font-bold">- {post.name}</span>
-              <span className="text-neutral-500 italic text-sm">{post.createdAt?.toUTCString()}</span>
+              <span className="italic font-bold">- {post.author.name}</span>
+              <span className="text-neutral-500 italic text-sm">{post.createdAt?.toLocaleDateString()} at {post.createdAt?.toLocaleTimeString()}</span>
+              <div className="flex gap-2 justify-center pt-4">
+                <button>
+                  {
+                    post.likes.find(user => {
+                      return (user.name == session?.user?.name);
+                    }) ? <SolidHeartIcon className="w-4 h-4 " /> : <OutlineHeartIcon className="w-4 h-4 " />
+                  }
+                </button>
+                <div>
+                  {post.likes.length}
+                </div>
+              </div>
             </div>
           );
         })}
@@ -64,7 +78,7 @@ const Home: NextPage = () => {
         onSubmit={(event) => {
           event.preventDefault();
           postMessage.mutate({
-            name: session?.user?.name as string,
+            userId: session?.user?.id as string,
             message,
           });
           setMessage("");
@@ -112,7 +126,7 @@ const Home: NextPage = () => {
 
               {
                 session.user?.image ? (
-                  <img src={session.user?.image} className="mx-auto mt-4 mb-2 rounded-full w-24 h-24 border-4 border-neutral-800" />
+                  <Image src={session.user?.image} width={100} height={100} alt="user image" className="mx-auto mt-4 mb-2 rounded-full w-24 h-24 border-4 border-neutral-800" />
                 ) : (
                   <div className="text-center">No profile picture</div>
                 )

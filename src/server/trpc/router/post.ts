@@ -6,7 +6,7 @@ export const postRouter = router({
     postMessage: protectedProcedure
         .input(
             z.object({
-                name: z.string(),
+                userId: z.string(),
                 message: z.string()
             })
         )
@@ -14,7 +14,7 @@ export const postRouter = router({
             try {
                 await ctx.prisma.post.create({
                     data: {
-                        name: input.name,
+                        userId: input.userId,
                         message: input.message
                     },
                 });
@@ -22,17 +22,19 @@ export const postRouter = router({
                 console.log(error);
             }
         }),
-    getAll: publicProcedure.query(async ({ ctx }) => {
-        return await ctx.prisma.post.findMany({
-            select: {
-                id: true,
-                name: true,
-                message: true,
-                createdAt: true,
-            },
-            orderBy: {
-                createdAt: "desc",
-            },
-        });
-    }),
+    getAll: publicProcedure
+        .query(async ({ ctx }) => {
+            return await ctx.prisma.post.findMany({
+                select: {
+                    id: true,
+                    author: true,
+                    message: true,
+                    createdAt: true,
+                    likes: true,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
+        }),
 });
