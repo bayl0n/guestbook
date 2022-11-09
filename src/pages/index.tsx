@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { ArrowPathIcon, HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
-import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import Messages from "../components/ui/Message/Messages";
 
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
@@ -22,38 +22,6 @@ const Home: NextPage = () => {
       </main>
     )
   }
-
-  const Messages = () => {
-    const { data } = trpc.post.getAll.useQuery();
-
-    return (
-      <div className="flex flex-col gap-4">
-        {data?.map((post) => {
-          return (
-            <div key={post.id} className="flex flex-col gap-2 justify-center text-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 p-4">
-              <p className="text-neutral-400">
-                &quot;{post.message}&quot;
-              </p>
-              <span className="italic font-bold">- {post.author.name}</span>
-              <span className="text-neutral-500 italic text-sm">{post.createdAt?.toLocaleString('en-US', { dateStyle: "long" })} at {post.createdAt.toLocaleTimeString('en-US')}</span>
-              <div className="flex gap-2 justify-center">
-                <button>
-                  {
-                    post.likes.find(user => {
-                      return (user.name == session?.user?.name);
-                    }) ? <SolidHeartIcon className="w-4 h-4 " /> : <OutlineHeartIcon className="w-4 h-4 " />
-                  }
-                </button>
-                <div>
-                  {post.likes.length}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
 
   const Form = () => {
     const utils = trpc.useContext();
@@ -156,7 +124,7 @@ const Home: NextPage = () => {
           )}
         </div>
         <div className="mt-12">
-          <Messages />
+          <Messages session={session} />
         </div>
       </main>
     </>
