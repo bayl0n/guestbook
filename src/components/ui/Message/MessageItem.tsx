@@ -30,8 +30,8 @@ export default function MessageItem({ session, post, author, likes }: Props) {
                 &quot;{post.message}&quot;
             </p>
             <span className="italic font-bold">- {author.name}</span>
-            <span className="text-neutral-500 italic text-sm">{post.createdAt?.toLocaleString('en-US', { dateStyle: "long" })} at {post.createdAt.toLocaleTimeString('en-US')}</span>
-            <div className="flex gap-2 justify-center">
+            <span className="text-neutral-500 italic">{post.createdAt?.toLocaleDateString()} at {post.createdAt.toLocaleTimeString('en-US')}</span>
+            <div className="flex gap-2 justify-center mx-2 pt-4 align-middle">
                 {
                     liked ?
                         <button onClick={() => {
@@ -44,7 +44,7 @@ export default function MessageItem({ session, post, author, likes }: Props) {
                             setLiked(false)
                             setLikeCount(likeCount - 1)
                         }}>
-                            <SolidHeartIcon className="w-4 h-4 " />
+                            <SolidHeartIcon className="w-5 h-5 " />
                         </button>
                         :
                         <button onClick={() => {
@@ -57,10 +57,10 @@ export default function MessageItem({ session, post, author, likes }: Props) {
                             setLiked(true)
                             setLikeCount(likeCount + 1)
                         }}>
-                            <OutlineHeartIcon className="w-4 h-4 " />
+                            <OutlineHeartIcon className="w-5 h-5 " />
                         </button>
                 }
-                <div>
+                <div className="min-w-[1rem]">
                     {likeCount}
                 </div>
             </div>
