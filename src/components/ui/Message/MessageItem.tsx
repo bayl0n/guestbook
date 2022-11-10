@@ -15,11 +15,10 @@ interface Props {
 
 export default function MessageItem({ session, post, author, likes }: Props) {
 
-    const utils = trpc.useContext();
     const addLike = trpc.post.addLike.useMutation()
     const removeLike = trpc.post.removeLike.useMutation()
 
-    const [liked, setLiked] = useState<Boolean>(likes.find(user => {
+    const [liked, setLiked] = useState<boolean>(likes.find(user => {
         return (user.name == session?.user?.name);
     }) ? true : false);
 
