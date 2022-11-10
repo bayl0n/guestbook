@@ -59,4 +59,21 @@ export const postRouter = router({
                 }
             });
         }),
+    removeLike: protectedProcedure
+        .input(
+            z.object({
+                postId: z.string(),
+                userId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            return await ctx.prisma.post.update({
+                where: { id: input.postId },
+                data: {
+                    likes: {
+                        disconnect: { id: input.userId },
+                    }
+                },
+            })
+        }),
 });

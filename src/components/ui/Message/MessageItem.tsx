@@ -18,6 +18,9 @@ export default function MessageItem({ session, post, author, likes }: Props) {
     const addLike = trpc.post.addLike.useMutation({
         onSuccess: () => utils.post.getAll.invalidate(),
     })
+    const removeLike = trpc.post.removeLike.useMutation({
+        onSuccess: () => utils.post.getAll.invalidate(),
+    })
 
     return (
         <div className="flex flex-col gap-2 justify-center text-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 p-4">
@@ -32,7 +35,13 @@ export default function MessageItem({ session, post, author, likes }: Props) {
                         return (user.name == session?.user?.name);
                     }) ?
                         // Remove like function
-                        <button>
+                        <button onClick={() => {
+                            if (!session?.user) return;
+                            removeLike.mutate({
+                                postId: post.id,
+                                userId: session.user.id
+                            })
+                        }}>
                             <SolidHeartIcon className="w-4 h-4 " />
                         </button>
                         :
