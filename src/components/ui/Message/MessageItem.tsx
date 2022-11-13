@@ -11,9 +11,10 @@ interface Props extends Post {
     session: Session | null;
     author: User;
     likes: User[];
+    replies: Post[];
 }
 
-export default function MessageItem({ session, author, message, id, createdAt, likes }: Props) {
+export default function MessageItem({ session, replies, author, message, id, createdAt, likes }: Props) {
 
     const addLike = trpc.post.addLike.useMutation()
     const removeLike = trpc.post.removeLike.useMutation()
@@ -67,7 +68,7 @@ export default function MessageItem({ session, author, message, id, createdAt, l
                 }
 
                 <div className="min-w-[1rem]">
-                    {likeCount}
+                    {replies.length}
                 </div>
             </div>
         </div>

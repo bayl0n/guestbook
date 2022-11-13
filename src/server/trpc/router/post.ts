@@ -12,6 +12,7 @@ export const postRouter = router({
                     createdAt: true,
                     likes: true,
                     userId: true,
+                    replies: true,
                 },
                 orderBy: {
                     createdAt: "desc",
