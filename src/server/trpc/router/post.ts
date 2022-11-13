@@ -37,7 +37,9 @@ export const postRouter = router({
         .input(
             z.object({
                 postId: z.string(),
-                user: z.object({ id: z.string() })
+                user: z.object({
+                    id: z.string(),
+                }),
             })
         )
         .mutation(async ({ ctx, input }) => {
@@ -54,7 +56,7 @@ export const postRouter = router({
                 where: { id: input.postId },
                 data: {
                     likes: {
-                        set: [...res.likes, input.user],
+                        connect: input.user
                     }
                 }
             });

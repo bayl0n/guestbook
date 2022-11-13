@@ -51,7 +51,7 @@ export default function MessageItem({ session, post, author, likes }: Props) {
                             if (!session?.user) return;
                             addLike.mutate({
                                 postId: post.id,
-                                user: { id: session.user.id }
+                                user: session.user
                             })
 
                             setLiked(true)

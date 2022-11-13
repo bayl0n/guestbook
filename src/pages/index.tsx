@@ -94,7 +94,7 @@ const Home: NextPage = () => {
 
               {
                 session.user?.image ? (
-                  <Image src={session.user?.image} width={100} height={100} alt="user image" className="mx-auto mt-4 mb-2 rounded-full w-24 h-24 border-4 border-neutral-800" />
+                  <Image src={session.user?.image} width={100} height={100} alt="user image" priority={true} className="mx-auto mt-4 mb-2 rounded-full w-24 h-24 border-4 border-neutral-800" />
                 ) : (
                   <div className="text-center">No profile picture</div>
                 )
