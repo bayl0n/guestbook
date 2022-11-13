@@ -1,5 +1,6 @@
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
 
 import type { Post, User } from "@prisma/client";
 import type { Session } from "next-auth/core/types";
@@ -64,7 +65,7 @@ export default function MessageItem({ session, replies, author, message, id, cre
                     {likeCount}
                 </div>
                 {
-                    session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <div>No user id</div>
+                    session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <button><ChatBubbleOvalLeftIcon className="w-5 h-5" /></button>
                 }
 
                 <div className="min-w-[1rem]">
