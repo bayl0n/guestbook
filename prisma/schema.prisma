@@ -74,4 +74,7 @@ model Post {
   userId    String
   message   String   @db.VarChar(256)
   likes     User[]
+  replyTo   Post?    @relation("PostReplies", fields: [postId], references: [id])
+  replies   Post[]   @relation("PostReplies")
+  postId    String?
 }

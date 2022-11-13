@@ -78,4 +78,27 @@ export const postRouter = router({
                 },
             })
         }),
+    addReply: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+                message: z.string(),
+                replyId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const newPost = await ctx.prisma.post.create({
+                data: {
+                    userId: input.userId,
+                    message: input.message,
+                }
+            });
+
+            return await ctx.prisma.post.update({
+                where: { id: newPost.id },
+                data: {
+                    postId: input.replyId
+                }
+            });
+        }),
 });

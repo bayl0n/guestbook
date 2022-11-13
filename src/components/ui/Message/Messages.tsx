@@ -14,7 +14,7 @@ export default function Messages({ session }: Props) {
         <div className="flex flex-col gap-4">
             {data?.map((post) => {
                 return (
-                    <MessageItem key={post.id} session={session} post={post} author={post.author} likes={post.likes} />
+                    <MessageItem key={post.id} message={post.message} id={post.id} createdAt={post.createdAt} session={session} author={post.author} likes={post.likes} userId={post.userId} postId={null} />
                 );
             })}
         </div>
