@@ -1,12 +1,14 @@
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
+import { Expand } from "tailwindcss/types/config";
 
 import type { Post, User } from "@prisma/client";
 import type { Session } from "next-auth/core/types";
 import { trpc } from "../../../utils/trpc";
 import { useState } from "react";
 import MessageReplyDialog from "./MessageReplyDialog";
+import { Disclosure } from "@headlessui/react";
 
 interface Props extends Post {
     session: Session | null;
@@ -27,51 +29,78 @@ export default function MessageItem({ session, replies, author, message, id, cre
     const [likeCount, setLikeCount] = useState<number>(likes.length)
 
     return (
-        <div className="flex flex-col gap-2 justify-center text-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 p-4 hover:scale-105 hover:bg-neutral-800 hover: hover:border-neutral-700 transition-all ease-in-out">
-            <p className="text-neutral-400">
-                &quot;{message}&quot;
-            </p>
-            <span className="italic font-bold">- {author.name}</span>
-            <span className="text-neutral-500 italic">{createdAt?.toLocaleDateString()} at {createdAt.toLocaleTimeString('en-US')}</span>
-            <div className="flex gap-2 justify-center mx-2 pt-4 align-middle">
-                {
-                    liked ?
-                        <button onClick={() => {
-                            if (!session?.user) return;
+        <Disclosure>
+            {({ open }) => (
+                <>
+                    <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 ${open ? "scale-105" : "scale-100"} hover:scale-105 transition-all ease-in-out`}>
+                        <Disclosure.Button>
+                            <div className="flex flex-col gap-2 justify-center text-center py-4 border-b-2 border-b-neutral-800">
+                                <p className="text-neutral-400">
+                                    &quot;{message}&quot;
+                                </p>
+                                <span className="italic font-bold">- {author.name}</span>
+                                <span className="text-neutral-500 italic">{createdAt?.toLocaleDateString()} at {createdAt.toLocaleTimeString('en-US')}</span>
+                            </div>
+                        </Disclosure.Button>
+                        <div className="flex gap-2 justify-center py-4 align-middle">
+                            {
+                                liked ?
+                                    <button onClick={() => {
+                                        if (!session?.user) return;
 
-                            removeLike.mutate({
-                                postId: id,
-                                userId: session.user.id
-                            })
-                            setLiked(false)
-                            setLikeCount(likeCount - 1)
-                        }}>
-                            <SolidHeartIcon className="w-5 h-5 " />
-                        </button>
-                        :
-                        <button onClick={() => {
-                            if (!session?.user) return;
-                            addLike.mutate({
-                                postId: id,
-                                user: session.user
-                            })
-                            setLiked(true)
-                            setLikeCount(likeCount + 1)
-                        }}>
-                            <OutlineHeartIcon className="w-5 h-5 " />
-                        </button>
-                }
-                <div className="min-w-[1rem]">
-                    {likeCount}
-                </div>
-                {
-                    session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <button><ChatBubbleOvalLeftIcon className="w-5 h-5" /></button>
-                }
+                                        removeLike.mutate({
+                                            postId: id,
+                                            userId: session.user.id
+                                        })
+                                        setLiked(false)
+                                        setLikeCount(likeCount - 1)
+                                    }}>
+                                        <SolidHeartIcon className="w-5 h-5 " />
+                                    </button>
+                                    :
+                                    <button onClick={() => {
+                                        if (!session?.user) return;
+                                        addLike.mutate({
+                                            postId: id,
+                                            user: session.user
+                                        })
+                                        setLiked(true)
+                                        setLikeCount(likeCount + 1)
+                                    }}>
+                                        <OutlineHeartIcon className="w-5 h-5 " />
+                                    </button>
+                            }
+                            <div className="min-w-[1rem]">
+                                {likeCount}
+                            </div>
+                            {
+                                session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <button><ChatBubbleOvalLeftIcon className="w-5 h-5" /></button>
+                            }
 
-                <div className="min-w-[1rem]">
-                    {replies.length}
-                </div>
-            </div>
-        </div>
+                            <div className="min-w-[1rem]">
+                                {replies.length}
+                            </div>
+                        </div>
+                    </div>
+                    <Disclosure.Panel>
+                        {
+                            replies.length > 0 ?
+                                replies.map(post => {
+                                    return (
+                                        <div className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                            <p className="text-neutral-400">
+                                                &quot;{post.message}&quot;
+                                            </p>
+                                        </div>
+                                    )
+                                })
+                                :
+                                <p className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">Be the first to reply!</p>
+                        }
+                    </Disclosure.Panel>
+                </>
+
+            )}
+        </Disclosure>
     )
 }
