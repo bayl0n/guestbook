@@ -1,7 +1,6 @@
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
-import { Expand } from "tailwindcss/types/config";
 
 import type { Post, User } from "@prisma/client";
 import type { Session } from "next-auth/core/types";
@@ -87,7 +86,7 @@ export default function MessageItem({ session, replies, author, message, id, cre
                             replies.length > 0 ?
                                 replies.map(post => {
                                     return (
-                                        <div className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                        <div key={post.id} className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
                                             <p className="text-neutral-400">
                                                 &quot;{post.message}&quot;
                                             </p>
