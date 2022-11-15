@@ -48,7 +48,8 @@ export default function MessageReplyDialog({ userId, postId, postAuthor }: Props
             <button
                 onClick={() => {
                     setIsOpen(true)
-                }}>
+                }}
+                className="hover:text-blue-500 transition-all ease-in-out">
                 <ChatBubbleOvalLeftIcon className="w-5 h-5" />
             </button>
 
@@ -81,7 +82,7 @@ export default function MessageReplyDialog({ userId, postId, postAuthor }: Props
                                         as="h3"
                                         className="text-lg font-medium leading-6"
                                     >
-                                        Replying to {postAuthor}
+                                        Replying to @{postAuthor}
                                     </Dialog.Title>
                                     <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4 md:flex-row justify-center">
                                         <input

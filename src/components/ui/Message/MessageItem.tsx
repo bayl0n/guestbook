@@ -34,53 +34,54 @@ export default function MessageItem({ session, replies, author, message, id, cre
                 <>
                     <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md ${open ? "scale-105 border-neutral-600" : "scale-100 border-neutral-800"} hover:scale-105 transition-all ease-in-out`}>
                         <Disclosure.Button>
+                            <div className="font-bold text-left ml-4 mt-4">@{author.name}</div>
                             <ArrowsPointingOutIcon className="w-5 h-5 absolute top-4 right-4 text-neutral-600" />
-                            <div className={`flex flex-col gap-2 justify-center text-center py-4 border-b-2 ${open ? "border-neutral-600" : "border-neutral-800"}`}>
-
-                                <p className="text-neutral-400">
-                                    &quot;{message}&quot;
+                            <div className={`flex flex-col gap-2 py-4 border-b-2 ${open ? "border-neutral-600" : "border-neutral-800"}`}>
+                                <p className="text-left ml-4 text-neutral-300">
+                                    {message}
                                 </p>
-                                <span className="italic font-bold">- {author.name}</span>
-                                <span className="text-neutral-500 italic">{createdAt?.toLocaleDateString()} at {createdAt.toLocaleTimeString('en-US')}</span>
                             </div>
                         </Disclosure.Button>
-                        <div className="flex gap-2 justify-center py-4 align-middle">
-                            {
-                                liked ?
-                                    <button onClick={() => {
-                                        if (!session?.user) return;
+                        <div className="flex flex-col md:flex-row justify-between text-center gap-2 align-middle py-4 mx-4">
+                            <div className="text-neutral-500 italic">{createdAt?.toLocaleDateString()} at {createdAt.toLocaleTimeString('en-US')}</div>
+                            <div className="flex gap-2 justify-center align-middle">
+                                {
+                                    liked ?
+                                        <button onClick={() => {
+                                            if (!session?.user) return;
 
-                                        removeLike.mutate({
-                                            postId: id,
-                                            userId: session.user.id
-                                        })
-                                        setLiked(false)
-                                        setLikeCount(likeCount - 1)
-                                    }}>
-                                        <SolidHeartIcon className="w-5 h-5 " />
-                                    </button>
-                                    :
-                                    <button onClick={() => {
-                                        if (!session?.user) return;
-                                        addLike.mutate({
-                                            postId: id,
-                                            user: session.user
-                                        })
-                                        setLiked(true)
-                                        setLikeCount(likeCount + 1)
-                                    }}>
-                                        <OutlineHeartIcon className="w-5 h-5 " />
-                                    </button>
-                            }
-                            <div className="min-w-[1rem]">
-                                {likeCount}
-                            </div>
-                            {
-                                session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <button><ChatBubbleOvalLeftIcon className="w-5 h-5" /></button>
-                            }
+                                            removeLike.mutate({
+                                                postId: id,
+                                                userId: session.user.id
+                                            })
+                                            setLiked(false)
+                                            setLikeCount(likeCount - 1)
+                                        }}>
+                                            <SolidHeartIcon className="w-5 h-5 text-red-500 hover:text-red-900 transition-all ease-in-out" />
+                                        </button>
+                                        :
+                                        <button onClick={() => {
+                                            if (!session?.user) return;
+                                            addLike.mutate({
+                                                postId: id,
+                                                user: session.user
+                                            })
+                                            setLiked(true)
+                                            setLikeCount(likeCount + 1)
+                                        }} className="hover:text-red-500 transition-all ease-in-out">
+                                            <OutlineHeartIcon className="w-5 h-5" />
+                                        </button>
+                                }
+                                <div className="min-w-[1rem]">
+                                    {likeCount}
+                                </div>
+                                {
+                                    session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : <button><ChatBubbleOvalLeftIcon className="w-5 h-5" /></button>
+                                }
 
-                            <div className="min-w-[1rem]">
-                                {replies.length}
+                                <div className="min-w-[1rem]">
+                                    {replies.length}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,9 +90,9 @@ export default function MessageItem({ session, replies, author, message, id, cre
                             replies.length > 0 ?
                                 replies.map(post => {
                                     return (
-                                        <div key={post.id} className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
-                                            <p className="text-neutral-400">
-                                                &quot;{post.message}&quot;
+                                        <div key={post.id} className=" w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                            <p className="text-neutral-300">
+                                                {post.message}
                                             </p>
                                         </div>
                                     )
