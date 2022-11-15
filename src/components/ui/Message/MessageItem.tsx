@@ -1,6 +1,7 @@
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
 
 import type { Post, User } from "@prisma/client";
 import type { Session } from "next-auth/core/types";
@@ -31,9 +32,11 @@ export default function MessageItem({ session, replies, author, message, id, cre
         <Disclosure>
             {({ open }) => (
                 <>
-                    <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md border-neutral-800 ${open ? "scale-105" : "scale-100"} hover:scale-105 transition-all ease-in-out`}>
+                    <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md ${open ? "scale-105 border-neutral-600" : "scale-100 border-neutral-800"} hover:scale-105 transition-all ease-in-out`}>
                         <Disclosure.Button>
-                            <div className="flex flex-col gap-2 justify-center text-center py-4 border-b-2 border-b-neutral-800">
+                            <ArrowsPointingOutIcon className="w-5 h-5 absolute top-4 right-4 text-neutral-600" />
+                            <div className={`flex flex-col gap-2 justify-center text-center py-4 border-b-2 ${open ? "border-neutral-600" : "border-neutral-800"}`}>
+
                                 <p className="text-neutral-400">
                                     &quot;{message}&quot;
                                 </p>
