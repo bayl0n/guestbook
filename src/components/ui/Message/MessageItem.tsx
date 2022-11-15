@@ -94,7 +94,12 @@ export default function MessageItem({ session, replies, author, message, id, cre
                                     )
                                 })
                                 :
-                                <p className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">Be the first to reply!</p>
+                                <p className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                    Be the first to reply!
+                                    <div className="mt-4">
+                                        {session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : ""}
+                                    </div>
+                                </p>
                         }
                     </Disclosure.Panel>
                 </>
