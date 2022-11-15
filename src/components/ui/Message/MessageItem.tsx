@@ -32,12 +32,12 @@ export default function MessageItem({ session, replies, author, message, id, cre
         <Disclosure>
             {({ open }) => (
                 <>
-                    <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md ${open ? "scale-105 border-neutral-600" : "scale-100 border-neutral-800"} hover:scale-105 transition-all ease-in-out`}>
+                    <div className={`flex flex-col justify-center mx-auto w-11/12 md:w-1/2 border-2 rounded-md ${open ? "scale-105 border-neutral-600" : "scale-100 border-neutral-800"} transition-all ease-in-out`}>
                         <Disclosure.Button>
                             <div className="font-bold text-left ml-4 mt-4">@{author.name}</div>
                             <ArrowsPointingOutIcon className="w-5 h-5 absolute top-4 right-4 text-neutral-600" />
                             <div className={`flex flex-col gap-2 py-4 border-b-2 ${open ? "border-neutral-600" : "border-neutral-800"}`}>
-                                <p className="text-left ml-4 text-neutral-300">
+                                <p className="text-left mx-4 text-neutral-300">
                                     {message}
                                 </p>
                             </div>
@@ -57,7 +57,7 @@ export default function MessageItem({ session, replies, author, message, id, cre
                                             setLiked(false)
                                             setLikeCount(likeCount - 1)
                                         }}>
-                                            <SolidHeartIcon className="w-5 h-5 text-red-500 hover:text-red-900 transition-all ease-in-out" />
+                                            <SolidHeartIcon className="w-5 h-5 text-red-500 md:hover:text-red-900 transition-all ease-in-out" />
                                         </button>
                                         :
                                         <button onClick={() => {
@@ -99,10 +99,22 @@ export default function MessageItem({ session, replies, author, message, id, cre
                                 })
                                 :
                                 <p className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
-                                    Be the first to reply!
-                                    <div className="mt-4">
-                                        {session?.user?.id ? <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name} /> : ""}
-                                    </div>
+                                    {
+                                        session?.user?.id
+                                            ?
+                                            <>
+                                                <div className="mb-2">
+                                                    This conversation is looking lonely...
+                                                </div>
+                                                <div className="flex justify-center gap-2 text-neutral-400">
+                                                    <MessageReplyDialog userId={session.user.id} postId={id} postAuthor={author.name}>
+                                                        Add a reply
+                                                    </MessageReplyDialog>
+                                                </div>
+                                            </>
+                                            :
+                                            "Log in to reply"
+                                    }
                                 </p>
                         }
                     </Disclosure.Panel>

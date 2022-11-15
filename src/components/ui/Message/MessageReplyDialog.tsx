@@ -5,10 +5,13 @@ import { useForm } from "react-hook-form";
 import { trpc } from "../../../utils/trpc";
 import type { SubmitHandler } from "react-hook-form";
 
+import type { ReactElement, ReactNode } from "react";
+
 interface Props {
     userId: string
     postId: string
     postAuthor: string | null
+    children?: ReactNode | ReactElement
 }
 
 type Inputs = {
@@ -17,7 +20,7 @@ type Inputs = {
     replyId: string,
 };
 
-export default function MessageReplyDialog({ userId, postId, postAuthor }: Props) {
+export default function MessageReplyDialog({ userId, postId, postAuthor, children }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const utils = trpc.useContext();
@@ -49,8 +52,11 @@ export default function MessageReplyDialog({ userId, postId, postAuthor }: Props
                 onClick={() => {
                     setIsOpen(true)
                 }}
-                className="hover:text-blue-500 transition-all ease-in-out">
-                <ChatBubbleOvalLeftIcon className="w-5 h-5" />
+                className="hover:text-blue-500 transition-all ease-in-out"
+            >
+                {
+                    children ? <div>{children}</div> : <ChatBubbleOvalLeftIcon className="w-5 h-5" />
+                }
             </button>
 
             <Transition appear show={isOpen} as={Fragment}>
