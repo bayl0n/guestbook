@@ -3,7 +3,7 @@ import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import Messages from "../components/ui/Message/Messages";
+import Messages from "../components/ui/Post/Messages";
 
 import { trpc } from "../utils/trpc";
 import { useState } from "react";

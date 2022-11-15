@@ -90,15 +90,18 @@ export default function MessageItem({ session, replies, author, message, id, cre
                             replies.length > 0 ?
                                 replies.map(post => {
                                     return (
-                                        <div key={post.id} className=" w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
-                                            <p className="text-neutral-300">
-                                                {post.message}
-                                            </p>
+                                        <div key={post.id} className="scale-95 w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                            <div className="font-bold text-left ml-2">Reply from @someone</div>
+                                            <div className={`flex flex-col gap-2 py-2`}>
+                                                <p className="text-left mx-2 text-neutral-300">
+                                                    {post.message}
+                                                </p>
+                                            </div>
                                         </div>
                                     )
                                 })
                                 :
-                                <p className="text-center w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
+                                <p className="text-center scale-95 w-11/12 md:w-1/2 mx-auto border-2 rounded-md border-neutral-800 p-4 my-2">
                                     {
                                         session?.user?.id
                                             ?
