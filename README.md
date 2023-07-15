@@ -1,5 +1,5 @@
 # Preview
-![image](https://github.com/bayl0n/guestbook/assets/1356555/cfbbe357-734b-4240-90f8-1e0ee28e7b23)
+![image](https://github.com/bayl0n/guestbook/assets/1356555/e7825c35-50c2-40f0-8c57-4cd4eadbaa75)
 
 # Create T3 App
 
