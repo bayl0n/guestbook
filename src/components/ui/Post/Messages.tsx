@@ -15,7 +15,7 @@ export default function Messages({ session }: Props) {
             {
                 data?.map((post) => {
                     return <MessageItem key={post.id} replies={post.replies} message={post.message} id={post.id} createdAt={post.createdAt} session={session} author={post.author} likes={post.likes} userId={post.userId} postId={null} />
-            })
+                })
             }
         </div>
     );
