@@ -11,18 +11,6 @@ import { useState } from "react";
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
 
-  if (status == "loading") {
-    return (
-      <main className="container mx-auto flex p-4 pt-8">
-        <div className="m-auto">
-          <div className="text-center">
-            <ArrowPathIcon className="w-8 h-8 animate-spin" />
-          </div>
-        </div>
-      </main>
-    )
-  }
-
   const Form = () => {
     const utils = trpc.useContext();
     const [message, setMessage] = useState("");
